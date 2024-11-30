@@ -1,0 +1,13 @@
+
+> start
+> node server.js
+
+Redis not configured, cache disabled.
+connect ECONNREFUSED 127.0.0.1:27017
+
+> start
+> node server.js
+
+Redis not configured, cache disabled.
+Database connected: mongodb://127.0.0.1:27017/wanderlust
+Server is running on port 5000
