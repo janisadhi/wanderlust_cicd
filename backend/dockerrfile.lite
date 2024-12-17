@@ -1,0 +1,21 @@
+#_________________________________stage first_______________________
+FROM node:latest AS backend-builder
+
+WORKDIR /app
+COPY package*.json package*.json
+
+RUN npm install --upgrade npm
+ 
+COPY . .
+
+#________________________________second satage_________________________
+
+FROM node:alpine 
+
+WORKDIR /app
+
+COPY --from=backend-builder /app .
+
+COPY .env .env 
+
+CMD ["npm","start"]

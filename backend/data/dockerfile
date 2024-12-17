@@ -1,0 +1,11 @@
+FROM mongo:latest 
+
+WORKDIR /app
+
+COPY . .
+
+CMD ["mongoimport", "--db", "wanderlust", "--collection", "posts", "--file", "sample_posts.json", "--jsonArray"]
+
+
+
+
