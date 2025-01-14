@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm i
+RUN npm install --upgrade npm
 
 FROM node:22-slim
 
