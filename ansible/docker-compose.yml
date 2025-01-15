@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+
+  mongodb:
+    image: "janisadhi/mongodb-wanderlust:v0.0.2"
+    container_name: "mongodb"
+    ports:
+      - "27017:27017"
+    networks:
+      - wanderlust_0
+    restart: always
+
+  backend:
+    image: "janisadhi/backend-wanderlust:v0.0.2"
+    container_name: "backend"
+    env_file:
+      - /home/ubuntu/wanderlust/.env
+    ports:
+      - "5000:5000"
+    networks:
+      - wanderlust_0
+    restart: always
+
+  frontend:
+    image: "janisadhi/frontend-wanderlust:v0.0.2"
+    container_name: "frontend"
+    env_file:
+      - /home/ubuntu/wanderlust/.env.local
+    ports:
+      - "5173:5173"
+    networks:
+      - wanderlust_0
+    restart: always
+
+networks:
+  wanderlust_0:
+    name: "wanderlust"
+    driver: bridge
