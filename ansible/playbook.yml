@@ -79,39 +79,7 @@
 
     - name: Create Nginx reverse proxy configuration file
       copy:
-        content: |
-          server {
-              listen 80;
-              server_name 16.16.245.230;
-
-              # Reverse Proxy for Frontend (running on port 5173)
-              location / {
-                  proxy_pass http://16.16.245.230:5173;  # Forward requests to frontend on port 5173
-                  proxy_set_header Host $host;           # Preserve the original host header
-                  proxy_set_header X-Real-IP $remote_addr;  # Forward the real client IP
-                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;  # Add proxy forwarding info
-                  proxy_set_header X-Forwarded-Proto $scheme;  # Preserve the protocol (http/https)
-
-                  # Add WebSocket support (if your frontend uses WebSockets)
-                  proxy_http_version 1.1;
-                  proxy_set_header Upgrade $http_upgrade;
-                  proxy_set_header Connection 'upgrade';
-              }
-
-              # Reverse Proxy for Backend (running on port 5000)
-              location /api/ {
-                  proxy_pass http://16.16.245.230:5000;  # Forward requests to backend on port 5000
-                  proxy_set_header Host $host;
-                  proxy_set_header X-Real-IP $remote_addr;
-                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                  proxy_set_header X-Forwarded-Proto $scheme;
-
-                  # Add WebSocket support (if your backend uses WebSockets)
-                  proxy_http_version 1.1;
-                  proxy_set_header Upgrade $http_upgrade;
-                  proxy_set_header Connection 'upgrade';
-              }
-          }
+        src: ./default
         dest: /etc/nginx/sites-available/default
         owner: root
         group: root
