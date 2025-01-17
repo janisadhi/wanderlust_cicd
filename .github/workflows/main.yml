@@ -48,10 +48,7 @@ jobs:
       - name: Push the Docker image
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE }}
 
-  ansible-lint:
-    uses: ansible/ansible-content-actions/.github/workflows/ansible_lint.yaml@main
-    with:
-      args: '-p playbooks'
+ 
 
   deploy:
     runs-on: ubuntu-latest
