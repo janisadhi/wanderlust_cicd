@@ -1,20 +1,21 @@
-#_________________________________________first stage_______________________________________________________________
+# First Stage
 FROM node:latest AS frontend-builder
 
 WORKDIR /app
 
 COPY . .
 
-RUN npm install --upgrade npm
+RUN npm install -g npm@latest --legacy-peer-deps
 
-#_______________________________________________second stage____________________________________________________________
+RUN npm install
 
+# Second Stage
 FROM node:alpine 
 
 WORKDIR /app
 
 COPY --from=frontend-builder /app .
 
-COPY  .env.local .env.local
+COPY .env.local .env.local
 
-CMD ["npm","run","dev","--","--host"]
+CMD ["npm", "run", "dev", "--", "--host"]
