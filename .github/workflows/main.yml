@@ -32,6 +32,7 @@ jobs:
 
   build_backend:
     runs-on: ubuntu-latest
+    needs: build_frontend
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -48,10 +49,9 @@ jobs:
       - name: Push the Docker image
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE }}
 
- 
-
   deploy:
     runs-on: ubuntu-latest
+    needs: build_backend
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -72,4 +72,4 @@ jobs:
           ANSIBLE_USER: ${{ secrets.ANSIBLE_USER }}
           ANSIBLE_HOST_KEY_CHECKING: False
         run: |
-          ansible-playbook -i ansible/hosts.ini ansible/playbook.yml  --private-key private_key.pem -u ${{ secrets.ANSIBLE_USER }} -l wanderlust
+          ansible-playbook -i ansible/hosts.ini ansible/playbook.yml --private-key private_key.pem -u ${{ secrets.ANSIBLE_USER }} -l wanderlust

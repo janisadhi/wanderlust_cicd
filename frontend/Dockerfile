@@ -7,7 +7,7 @@ COPY . .
 
 RUN npm install --upgrade npm
 
-RUN npm install
+
 
 # Second Stage
 FROM node:alpine 
