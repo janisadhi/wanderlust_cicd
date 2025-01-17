@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 env:
-  FRONTEND_IMAGE: ${{ vars.DOCKERHUB_USERNAME }}/frontend-wanderlust:v0.0.2
-  BACKEND_IMAGE: ${{ vars.DOCKERHUB_USERNAME }}/backend-wanderlust:v0.0.2
+  FRONTEND_IMAGE: frontend-wanderlust:v0.0.2
+  BACKEND_IMAGE: backend-wanderlust:v0.0.2
 
 jobs:
   build_frontend:
@@ -25,10 +25,10 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build the Docker image
-        run: docker build -t ${{ env.FRONTEND_IMAGE }} ./frontend
-
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.FRONTEND_IMAGE }} ./frontend
+  
       - name: Push the Docker image
-        run: docker push ${{ env.FRONTEND_IMAGE }}
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.FRONTEND_IMAGE }}
 
   build_backend:
     runs-on: ubuntu-latest
@@ -43,10 +43,10 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build the Docker image
-        run: docker build -t ${{ env.BACKEND_IMAGE }} ./backend
-
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE }} ./backend
+  
       - name: Push the Docker image
-        run: docker push ${{ env.BACKEND_IMAGE }}
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.BACKEND_IMAGE }}
 
   ansible-lint:
     uses: ansible/ansible-content-actions/.github/workflows/ansible_lint.yaml@main
